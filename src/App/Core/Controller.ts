@@ -2,6 +2,8 @@ import DefaultMapping from "./Mapping";
 import messages from "../../Utils/messages";
 import { NextFunction, Request, Response } from "express";
 import IDefaultContract from "./Contract";
+import sampleEvent from "../Components/Events/sample.event";
+import { EventRegister } from "../../Services/Event/EventRegister";
 
 /**
  * @note The controller's responsibility is to receive the request, respond 
@@ -12,9 +14,13 @@ class Controller<T> implements IDefaultContract {
         async (req: Request, res: Response, next: NextFunction) => {
             try {
                 res.locals.data = await mapping.create(req)
-                 
-                return next(messages.CREATE_SUCCESS())
+                
+                sampleEvent.dispatch({message: 'Disparaaaaaaado'})
+
+                EventRegister.getInstance().removeEvent(sampleEvent)
+               return next(messages.CREATE_SUCCESS())
             } catch (error) {
+                console.log(error)
                 return next(messages.SERVER_ERROR(error))
             }
         }

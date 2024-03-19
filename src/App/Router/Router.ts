@@ -128,16 +128,28 @@ class Router {
         return new Promise<void>((resolve, reject) => {
             try {
                 let modulesPath = path.join(__dirname.replace('\\index.ts', '').replace('Router', '\\Modules'))
-                fs.readdirSync(modulesPath)
-                    .forEach((moduleName: string) => {
-                        let modulePath = path.join(modulesPath, '\\' + moduleName)
-                        
-                        fs.readdirSync(modulePath).filter((dirII) => dirII === 'Routes').forEach(async (Routes) => {
-                            let routesPath = path.join(modulePath, Routes)
 
-                            await this.initializeRoute(routesPath, moduleName)
-                        })
-                    });
+                try {
+                    fs.readdirSync(modulesPath)
+                        .forEach((moduleName: string) => {
+                            let modulePath = path.join(modulesPath, '\\' + moduleName)
+                            
+                            fs.readdirSync(modulePath).filter((dirII) => dirII === 'Routes').forEach(async (Routes) => {
+                                let routesPath = path.join(modulePath, Routes)
+    
+                                await this.initializeRoute(routesPath, moduleName)
+                            })
+                        });
+                } catch (error: any) {
+                    if(error.errno === -4058) {
+                        console.log('\n\t  --------------------------------------------------------------------------------------------')
+                        console.log('\n\t⚠️  - Please, run yarn module.generate to create the `Modules` dir. There\'s no Routes loaded!!')
+                        console.log('\n\t  --------------------------------------------------------------------------------------------\n')
+                    } else {
+                        reject(error)
+                    }
+                }
+
                 return resolve();
             } catch (error) {
                 reject(error)

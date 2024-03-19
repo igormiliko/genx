@@ -6,6 +6,7 @@ import response from "./Middlewares/response";
 import {json, urlencoded, Application}  from "express"
 import appLocals from "./Middlewares/appLocals";
 import cloakingPrimaryKey from "./Middlewares/cloakingPrimaryKey";
+import {EventRegister} from "../Services/Event/EventRegister";
 
 class App {
     private app: Application | null
@@ -29,6 +30,7 @@ class App {
         this.port = port || this.port
         this.callbackListen = callbackListen || this.callbackListen
         this.loadApp()
+        new EventRegister()
     }
     
     private applyGlobalMiddlewares() {
