@@ -1,0 +1,1 @@
+export default (interpolator: string) => new RegExp(`\\{\\{(${interpolator})\\}\\}`, 'g')

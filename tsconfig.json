@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "target": "es6",         // Versão do ECMAScript para a qual você está compilando
+      "module": "commonjs",    // Formato de módulo a ser gerado
+      "strict": true,          // Habilita todas as opções de verificação estrita
+      "esModuleInterop": true, // Habilite a interoperabilidade do ES module
+      "skipLibCheck": true,    // Não verifica arquivos de definição de biblioteca
+      "forceConsistentCasingInFileNames": true,  // Força a consistência na nomenclatura de arquivos
+      "resolveJsonModule": true,  // Habilita a importação de arquivos JSON como módulos
+      "outDir": "dist"         // Diretório de saída para arquivos compilados
+    },
+    "include": ["src/**/*.ts"], // Arquivos que devem ser incluídos na compilação
+    "exclude": ["node_modules"] // Pastas que devem ser excluídas da compilação
+  }
+  

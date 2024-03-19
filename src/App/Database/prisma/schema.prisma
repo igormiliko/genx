@@ -1,0 +1,18 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model sample {
+  id   Int   @unique(map: "sample_unique") @default(autoincrement())
+  data Json?
+}
+
+model elpmas {
+  id  Int    @unique(map: "elpmas_unique") @default(autoincrement())
+  hit BigInt @default(0)
+}

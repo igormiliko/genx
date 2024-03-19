@@ -1,0 +1,7 @@
+{
+    "tablesToRemove": [],
+    "overwriteFiles": true,
+    "modules": {
+        "api": ["sample", "elpmas"]
+    }
+}
