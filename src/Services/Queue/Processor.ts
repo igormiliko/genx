@@ -1,4 +1,5 @@
 import Job from "./Job";
+import Message from "./Message";
 import Queue from "./Queue";
 
 class QueueProcessor {
@@ -9,26 +10,26 @@ class QueueProcessor {
         this.queue = queue
     }
 
-    private reenqueue(job: Job) {
-        if (job.times > 1) {
-            this.queue.enqueue(job, true)
+    private reenqueue(process: Job | Message) {
+        if (process.times > 1) {
+            this.queue.enqueue(process, true)
         }
     }
 
-    private exec(job: Job) {
+    private exec(process: Job | Message) {
         return new Promise<void>(async (resolve) => {
             let sentinel = setTimeout(() => {
-                this.catch({ message: 'Processing time out', rest: job.times })
+                this.catch({ message: 'Processing time out', rest: process.times })
                 
-                this.reenqueue(job)
+                this.reenqueue(process)
                 
                 return resolve()
             }, this.queue.options.maxWaitTime)
 
             try {                
-                await job!.handle()
+                await process!.handle()
             } catch (error: any) {
-                this.reenqueue(job)
+                this.reenqueue(process)
 
                 if (this.catch) {
                     this.catch(error)
