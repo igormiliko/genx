@@ -1,36 +1,52 @@
 // eventEmitter.ts
 
 // Importando módulos necessários
-import { EventEmitter } from 'events';
 import {EventRegister} from './EventRegister';
 
+type TRemovedEventData = {
+    message: string;
+    date: Date
+}
+
 abstract class AbstractEvent<D>{
-    protected eventEmitter: EventEmitter;
     public readonly name: string = this.constructor.name;
 
     constructor() {
-        this.eventEmitter = EventRegister.getInstance().eventEmitter;
-
         this.on()
         this.off()
-        EventRegister.getInstance().registerEvent(this)
+        EventRegister.registerEvent(this)
     }
 
     private on(): void {
-        this.eventEmitter.on(this.name, this.listenerOn());
+        if (this.listenerOn) {
+            EventRegister.eventEmitter.on(this.name, this.listenerOn());
+        }
     }
 
     private off(): void {
-        this.eventEmitter.off(this.name, this.listenerOff());
+        if (this.listenerOff) {
+            EventRegister.eventEmitter.on(`${this.name}Removed`, this.listenerOff());
+        }
     }
 
-    public dispatch(data: D): void {
-        this.eventEmitter.emit(this.name, data);
-    }
-    
-    abstract listenerOn(): (data?: D) => void 
-    
+    abstract listenerOn(): (data?: D) => void
+
     abstract listenerOff(): (data?: D) => void
+
+    public dispatch(data: D): void {
+        EventRegister.eventEmitter.emit(this.name, data);
+    }
+
+    public remove() {
+        let data: TRemovedEventData = {
+            date: new Date(),
+            message: this.name + ' removed'
+        }
+
+        EventRegister.eventEmitter.emit(`${this.name}Removed`, data);
+
+        EventRegister.removeEvent(this)
+    }
 }
 
 

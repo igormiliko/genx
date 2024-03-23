@@ -29,8 +29,8 @@ class App {
         this.app = app
         this.port = port || this.port
         this.callbackListen = callbackListen || this.callbackListen
-        this.loadApp()
         new EventRegister()
+        this.loadApp()
     }
     
     private applyGlobalMiddlewares() {

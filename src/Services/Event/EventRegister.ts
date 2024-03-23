@@ -3,26 +3,17 @@ import { EventEmitter } from 'events';
 import fs from 'fs'
 
 class EventRegister {
-  private static instance: EventRegister;
-
-  public static getInstance(): EventRegister {
-    if (!EventRegister.instance) {
-      EventRegister.instance = new EventRegister();
-    }
-    return EventRegister.instance;
-  }
-
-  public eventEmitter: EventEmitter = new EventEmitter();
+  static eventEmitter: EventEmitter = new EventEmitter();
 
   constructor() {
-    this.callEvents()
+    EventRegister.init()
   }
 
-  private callEvents() {
+  private static init() {
     try {
       let eventsPath = __dirname.replace('Services\\Event', 'App\\Components\\Events')
       fs.readdirSync(eventsPath).map((eventFileName) => {
-        if(eventFileName.includes('.event.')) {
+        if (eventFileName.includes('.event.')) {
           require(`${eventsPath}\\${eventFileName}`)
         }
       })
@@ -31,25 +22,26 @@ class EventRegister {
     }
   }
 
-  public events: { [x: string]: AbstractEvent<any> } = {}
+  static events: { [x: string]: AbstractEvent<any> } = {}
 
-  registerEvent(event: AbstractEvent<any>) {
-    if (this.events[event.name]) {
+  static registerEvent(event: AbstractEvent<any>) {
+    if (EventRegister.events[event.name]) {
       return
     }
-    this.events[event.name] = event
+
+    EventRegister.events[event.name] = event
   }
 
-  removeEvent(event: AbstractEvent<any>) {
-    delete this.events[event.name]
-    
-    this.eventEmitter.removeListener(event.name, () => {
-      console.log(`--------------------------------------\n`)
-      console.log(`📴  Removing the Event: ${event.name}\n`)
-      console.log(`--------------------------------------\n`)
-    })
+  static removeEvent(event: AbstractEvent<any>) {
+    EventRegister.eventEmitter.removeAllListeners(event.name)
+    EventRegister.eventEmitter.removeAllListeners(`${event.name}Removed`)
+
+    delete EventRegister.events[event.name]
   }
 }
 
+const events = EventRegister.events
+
 export { EventRegister }
 
+export default events

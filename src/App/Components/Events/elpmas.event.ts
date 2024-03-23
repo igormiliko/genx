@@ -15,4 +15,4 @@ class Elpmas extends AbstractEvent<TElpmas_DataEvent> {
     }
 }
 
-new Elpmas()
+export default new Elpmas()
