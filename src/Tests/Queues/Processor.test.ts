@@ -1,5 +1,5 @@
-import publisherJob from "../../App/Components/Jobs/publisher.job"
-import subscriberJob from "../../App/Components/Jobs/subscriber.job"
+import publisherJob from "../../App/Components/Jobs/sample.job"
+import subscriberJob from "../../App/Components/Jobs/elpmas.job."
 import sampleQueue from "../../App/Components/Queue/sample.queue"
 import QueueProcessor from "../../Services/Queue/Processor"
 import Queue from "../../Services/Queue/Queue"
@@ -10,7 +10,7 @@ describe('Testing the processor class', () => {
         let sub = new subscriberJob()
 
         const queue = new sampleQueue({
-            delay: 500,
+            delay: 2000,
             delivery: "at-leats-once",
             expirationTime: 10000,
             maxWaitTime: 10000,

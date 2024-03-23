@@ -20,9 +20,9 @@ class QueueProcessor {
             let sentinel = setTimeout(() => {
                 this.catch({ message: 'Processing time out', rest: job.times })
                 
-                this.reenqueue(job,)
+                this.reenqueue(job)
                 
-                resolve()
+                return resolve()
             }, this.queue.options.maxWaitTime)
 
             try {                
@@ -34,7 +34,8 @@ class QueueProcessor {
                     this.catch(error)
                 }
             } finally {
-                resolve(clearTimeout(sentinel))
+                clearTimeout(sentinel)
+                return resolve()
             }
         })
     }
@@ -46,16 +47,14 @@ class QueueProcessor {
             if (!job) {
                 break;
             }
-            console.log(job.times, job.constructor.name)
 
             job.times = job.times - 1
 
             await this.exec(job)
 
             await new Promise<void>((resolve) => {
-                setInterval(resolve, this.queue.options.delay)
+                setInterval(()=>resolve(), this.queue.options.delay).unref()
             })
-
         }
     };
 
@@ -69,7 +68,7 @@ class QueueProcessor {
     }
 
     protected catch(error: any): void {
-        // console.log('Error =>> \n', error)
+        console.log('Error =>> \n', error)
     }
 }
 

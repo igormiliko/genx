@@ -38,12 +38,12 @@ abstract class Queue {
         return this.queue.length === 0;
     }
 
-    enqueue(object: Job, yeld?: boolean): void {
+    enqueue(object: Job, refeeding?: boolean): void {
         if (this.isFull()) {
             return;
         }
         
-        if(!yeld) {
+        if(!refeeding) {
             object.times = this.options.retryTimes
         }
 
@@ -69,9 +69,9 @@ abstract class Queue {
             this.customDequeue()
         } else {
             if (this.options.processType === QueuePolicy.LIFO) {
-                return this.queue.pop(); // Para LIFO, remove do final da fila
+                return this.queue.pop();
             } else {
-                return this.queue.shift(); // Para FIFO, remove do início da fila
+                return this.queue.shift();
             }
         }
     }
