@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express"
 import Crypt from "../../Services/Crypt"
 import Validator from "../Core/Validator"
-import messages from "../../Utils/messages"
+import reply from "../../Utils/reply"
 
 /**
  * @note The request start with the decryptPrimaryKey and finish with encryptPrimaryKey
@@ -16,7 +16,7 @@ class CloakingPrimaryKey {
                 let [id, time] = (await Crypt.decipher(String(idStamp), iv)).split('.')
 
                 if(Number(time) + CloakingPrimaryKey.timeToId < new Date().getTime()) {
-                    next(messages.BAD_REQUEST())
+                    next(reply.BAD_REQUEST())
                 }
 
                 req.params.id = id
@@ -25,7 +25,7 @@ class CloakingPrimaryKey {
             return next()
         } catch (error) {
             console.log(error)
-            return next(messages.SERVER_ERROR(error))
+            return next(reply.SERVER_ERROR(error))
         }
     }
 
@@ -35,7 +35,7 @@ class CloakingPrimaryKey {
             let { data, validator }: { data: any, validator: Validator } = res.locals as any
             
             if(!validator) {
-                return next(messages.BAD_REQUEST())
+                return next(reply.BAD_REQUEST())
             }
 
             let primaryKey = validator.entityPrimaryKey
@@ -62,7 +62,7 @@ class CloakingPrimaryKey {
         } catch (error) {
             console.log(error)
             res.locals.data = null
-            return next(messages.SERVER_ERROR(error))
+            return next(reply.SERVER_ERROR(error))
         }
     }
 }

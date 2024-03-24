@@ -1,7 +1,7 @@
 import cors from "cors";
 import helmet from "helmet";
 import nocache from "nocache";
-import messages from "../Utils/messages";
+import reply from "../Utils/reply";
 import response from "./Middlewares/response";
 import {json, urlencoded, Application}  from "express"
 import appLocals from "./Middlewares/appLocals";
@@ -47,7 +47,7 @@ class App {
 
     private finalwares() {
         this.app!.use((req,res,next) => {
-            next(messages.NOT_FOUND())
+            next(reply.NOT_FOUND())
         })
         this.app!.use(cloakingPrimaryKey.encryptPrimaryKey)
         this.app!.use(response)

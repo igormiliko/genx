@@ -1,5 +1,5 @@
 import DefaultMapping from "./Mapping";
-import messages from "../../Utils/messages";
+import reply from "../../Utils/reply";
 import { NextFunction, Request, Response } from "express";
 import IDefaultContract from "./Contract";
 
@@ -13,10 +13,10 @@ class Controller<T> implements IDefaultContract {
             try {
                 res.locals.data = await mapping.create(req)
                 
-               return next(messages.CREATE_SUCCESS())
+               return next(reply.CREATE_SUCCESS())
             } catch (error) {
                 console.log(error)
-                return next(messages.SERVER_ERROR(error))
+                return next(reply.SERVER_ERROR(error))
             }
         }
     list = (mapping: DefaultMapping<T>) => 
@@ -24,9 +24,9 @@ class Controller<T> implements IDefaultContract {
             try {
                 res.locals.data = await mapping.list(req.query)
                 
-                return next(messages.LIST_SUCCESS())
+                return next(reply.LIST_SUCCESS())
             } catch (error) {
-                return next(messages.SERVER_ERROR(error))
+                return next(reply.SERVER_ERROR(error))
             }
         }
     read = (mapping: DefaultMapping<T>) => 
@@ -35,15 +35,15 @@ class Controller<T> implements IDefaultContract {
                 let response = await mapping.read(req)
                 
                 if(!response) {
-                    messages.NOT_FOUND()
+                    reply.NOT_FOUND()
                 }
 
                 res.locals.data = response
                 
-                return next(messages.READ_SUCCESS())
+                return next(reply.READ_SUCCESS())
             } catch (error) {
                 console.log(error)
-                return next(messages.SERVER_ERROR(error))
+                return next(reply.SERVER_ERROR(error))
             }
         }
     update = (mapping: DefaultMapping<T>) => 
@@ -51,9 +51,9 @@ class Controller<T> implements IDefaultContract {
             try {
                 res.locals.data = await mapping.update(req)
                 
-                return next(messages.UPDATE_SUCCESS())
+                return next(reply.UPDATE_SUCCESS())
             } catch (error) {
-                return next(messages.SERVER_ERROR(error))
+                return next(reply.SERVER_ERROR(error))
             }
         }
 
@@ -62,9 +62,9 @@ class Controller<T> implements IDefaultContract {
             try {
                 res.locals.data = await mapping.destroy(req)
                 
-                return next(messages.DELETE_SUCCESS())
+                return next(reply.DELETE_SUCCESS())
             } catch (error) {
-                return next(messages.SERVER_ERROR(error))
+                return next(reply.SERVER_ERROR(error))
             }
         }
 }

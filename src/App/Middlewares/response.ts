@@ -3,7 +3,7 @@ import {
     Response,
     NextFunction
 } from "express";
-import messages from "../../Utils/messages";
+import reply from "../../Utils/reply";
 
 function response(
     response: {code: number, error: any, message: any},
@@ -28,7 +28,7 @@ function response(
         return res.status(responseObject.metadata.status).json(JSON.parse(finalResponse));
     } catch (error) {
         console.log(error)
-        return res.status(500).json(messages.SERVER_ERROR(error))
+        return res.status(500).json(reply.SERVER_ERROR(error))
     }
 };
 

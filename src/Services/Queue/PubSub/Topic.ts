@@ -1,12 +1,14 @@
-import Queue, { TQueueOptions } from "../../Queue";
-import Message from "../Message";
-import Publisher from "../Publisher";
-import Subscriber from "../Subscriber";
+import Queue, { TQueueOptions } from "../Queue";
+import Message from "./Message";
+import Publisher from "./Publisher";
+import Subscriber from "./Subscriber";
 
 class Topic extends Queue {
     readonly name: string;
     protected queue: Message[] = []
     protected events: { [x: string]: any } = {}
+
+    key: Buffer
 
     publishers: Publisher[] = []
     subcribers: Subscriber[] = []
@@ -21,10 +23,13 @@ class Topic extends Queue {
             processType: 'FIFO',
             retryTimes: 3
         },
-        events: { [x: string]: any }) {
+        events: { [x: string]: any },
+        key: Buffer
+    ) {
         super(options)
         this.name = name
         this.events = events
+        this.key = key
         this.loadPublishers()
         this.loadSubscribers()
     }

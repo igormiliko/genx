@@ -1,5 +1,5 @@
 import { TMiddleware } from "../../../types"
-import Topic from "./Topic/Topic"
+import Topic from "./Topic"
 import { Application } from "express"
 
 
@@ -8,12 +8,6 @@ class MessageBroker {
 
     constructor() {
         this.loadTopics()
-    }
-
-    validation(): TMiddleware {
-        return (req, res, next) => {
-
-        }
     }
 
     addTopic(topic: Topic) {
@@ -27,6 +21,10 @@ class MessageBroker {
         delete this.topics[topic.constructor.name]
     }
 
+    /**
+     * Mothod responsable to load the topics from database
+     * @returns {Promise<void>}
+     */
     private loadTopics(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             try {
@@ -37,26 +35,56 @@ class MessageBroker {
         })
     }
 
-    private publisherChannel(): [string, TMiddleware] {
-        return [
-            '/publisher/:topic', 
-            (req, res, next) => {
 
+    
+    private validPublish(topic: string): boolean {
+        return true
+    }
+
+    /**
+     * This is the endpoint to receive messages from the publisher
+     * @returns {[string, TMiddleware]}
+     */
+    private publishChannel(): [string, TMiddleware] {
+        return [
+            '/publish/:topic', 
+            // Put here your api authentication middleware for improve the security
+            (req, res, next) => {
+                let {topic} = req.params
+
+                if(!this.validPublish(topic)) {
+                    next()
+                }
             }
         ]
     }
 
+    private subcribeValidation(): TMiddleware {
+        return (req, res, next) => {
+
+        }
+    }
+
+    /**
+     * This is the endpoint for subscribing to a specific topic
+     * @returns {[string, TMiddleware]}
+     */
     private subscriberChannel(): [string, TMiddleware] {
         return [
             '/subscribe/:topic', 
+            // Put here your api authentication middleware for improve the security
             (req, res, next) => {
 
             }
         ]
     }
 
+    /**
+     * Method to install the messageBroker in the Express app
+     * @param app 
+     */
     install(app: Application) {
-        app.get(...this.publisherChannel())
+        app.get(...this.publishChannel())
         app.post(...this.subscriberChannel())
     }
 }

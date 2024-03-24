@@ -1,4 +1,4 @@
-export default {
+const reply = {
     SERVER_ERROR: (error: any) => ({
         code: 500,
         message: 'Error at server',
@@ -37,3 +37,5 @@ export default {
         message: 'This service is under maintenance. Please try again later.'
     })
 }
+
+export default reply

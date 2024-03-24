@@ -1,12 +1,20 @@
-import Message from "./Message"
-import Topic from "./Topic/Topic"
+import Message, { IMessage } from "./Message"
 
-class Publisher {
-    topic: Topic
+abstract class Publisher {
     message: Message
-    constructor(topic: Topic, message: Message) {
-        this.topic = topic
-        this.message = message
+
+    constructor({topic, event, data}: IMessage) {
+        this.message = this.createMessage({topic, event, data})
+    }
+
+    abstract isValidMessage(): boolean
+
+    createMessage({topic, event, data}: IMessage) {
+        if(!this.isValidMessage()) {
+            throw new Error('Message not valid!')
+        }
+            return new Message({topic, event, data})
+
     }
 }
 

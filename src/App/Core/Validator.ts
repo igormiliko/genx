@@ -1,6 +1,6 @@
 import { Request, NextFunction, Response } from "express";
 import IDefaultContract from "./Contract";
-import messages from "../../Utils/messages";
+import reply from "../../Utils/reply";
 
 abstract class Validator implements IDefaultContract {
     public entityPrimaryKey = 'id'
@@ -16,7 +16,7 @@ abstract class Validator implements IDefaultContract {
 
             next()
         } catch (error) {
-            next(messages.SERVER_ERROR(error))
+            next(reply.SERVER_ERROR(error))
         }
     }
 
@@ -25,7 +25,7 @@ abstract class Validator implements IDefaultContract {
 
             next()
         } catch (error) {
-            next(messages.SERVER_ERROR(error))
+            next(reply.SERVER_ERROR(error))
         }
     }
 
@@ -34,7 +34,7 @@ abstract class Validator implements IDefaultContract {
 
             next()
         } catch (error) {
-            next(messages.SERVER_ERROR(error))
+            next(reply.SERVER_ERROR(error))
         }
     }
 
@@ -43,7 +43,7 @@ abstract class Validator implements IDefaultContract {
 
             next()
         } catch (error) {
-            next(messages.SERVER_ERROR(error))
+            next(reply.SERVER_ERROR(error))
         }
     }
 
@@ -52,7 +52,7 @@ abstract class Validator implements IDefaultContract {
 
             next()
         } catch (error) {
-            next(messages.SERVER_ERROR(error))
+            next(reply.SERVER_ERROR(error))
         }
     }
 
