@@ -1,5 +1,5 @@
 import Job from "./Job"
-import Message from "./Message"
+import Message from "./PubSub/Message"
 
 type TQueueOptions = {
     processType: 'FIFO' | 'LIFO' // Order to process the queue

@@ -1,5 +1,5 @@
 import Job from "./Job";
-import Message from "./Message";
+import Message from "./PubSub/Message";
 import Queue from "./Queue";
 
 class QueueProcessor {
