@@ -54,7 +54,7 @@ class Topic extends Queue {
         })
     }
 
-    customEnqueue(object: Message, refeeding?: boolean): boolean {
+    customEnqueue(object: Message, refeeding?: boolean) {
         if (this.isFull()) {
             return true;
         }
@@ -64,6 +64,7 @@ class Topic extends Queue {
         }
 
         this.queue.push(object);
+
         return true
     }
 

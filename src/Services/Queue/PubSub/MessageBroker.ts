@@ -2,7 +2,6 @@ import { TMiddleware } from "../../../types"
 import Topic from "./Topic"
 import { Application } from "express"
 
-
 class MessageBroker {
     readonly topics: { [x: string]: Topic } = {}
 
@@ -59,7 +58,7 @@ class MessageBroker {
         ]
     }
 
-    private subcribeValidation(): TMiddleware {
+    private validSubscribe(): TMiddleware {
         return (req, res, next) => {
 
         }
