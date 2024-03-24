@@ -1,7 +1,7 @@
 import Job from "./Job"
 import Message from "./PubSub/Message"
 
-type TQueueOptions = {
+export type TQueueOptions = {
     processType: 'FIFO' | 'LIFO' // Order to process the queue
     delivery: 'at-leats-once' | 'exactly-once'
     expirationTime: number // Time in 'ms' to a job expire
@@ -51,14 +51,14 @@ abstract class Queue {
      * }
      */
     readonly options: TQueueOptions
-    
+
     /**
      * Array to enqueue the things
      * @private
      * @type {Job}
      */
-    private queue: Job[] | Message[] = []
-    
+    protected queue: Job[] = []
+
     /**
      * Create an Queue instance.
      * @constructor
@@ -70,49 +70,50 @@ abstract class Queue {
 
     /**
      * Method to check if the queue is full
-     * @private
+     * @protected
      * @returns {boolean}
      */
-    private isFull(): boolean {
+    protected isFull(): boolean {
         return this.options.capacity ? this.queue.length >= this.options.capacity : false;
     }
     /**
      * Method to check if the queue is empty
-     * @private
+     * @protected
      * @returns {boolean}
      */
-    private isEmpty(): boolean {
+    protected isEmpty(): boolean {
         return this.queue.length === 0;
     }
 
-    enqueue(object: Job | Message, refeeding?: boolean): void {
+    enqueue(object: Job, refeeding?: boolean): void {
         if (this.isFull()) {
             return;
         }
-        
-        if(!refeeding) {
+
+        if (!refeeding) {
             object.times = this.options.retryTimes
         }
 
-        if (this.options.inDisk) {
-            this.customEnqueue()
+        if (this.customEnqueue || this.options.inDisk) {
+            this.customEnqueue(object, refeeding)
         } else {
             this.queue.push(object as any);
         }
     }
 
-    customEnqueue() {
-        if(this.options.inDisk) {
+    customEnqueue(object: Job, refeeding?: boolean): boolean {
+        if (this.options.inDisk) {
             throw new Error('Please, override the customEnqueue method in a new child class')
         }
+        return false
     }
-    
+
     private dequeue() {
         if (this.isEmpty()) {
             return undefined;
         }
 
-        if (this.options.inDisk) {
+        if (this.customDequeue || this.options.inDisk) {
             this.customDequeue()
         } else {
             if (this.options.processType === QueuePolicy.LIFO) {
@@ -123,10 +124,11 @@ abstract class Queue {
         }
     }
 
-    private customDequeue() {
-        if(this.options.inDisk) {
+    protected customDequeue(): boolean {
+        if (this.options.inDisk) {
             throw new Error('Please, override the dequeue method in a new child class')
         }
+        return false
     }
 
     length() {
@@ -134,7 +136,7 @@ abstract class Queue {
     }
 
     prosecute() {
-        let job = this.dequeue()      
+        let job = this.dequeue()
         return job
     }
 }

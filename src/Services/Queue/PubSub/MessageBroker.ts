@@ -1,24 +1,19 @@
 import { TMiddleware } from "../../../types"
-import Publisher from "./Publisher"
-import Subscriber from "./Subscriber"
-import Topic from "./Topic"
+import Topic from "./Topic/Topic"
 import { Application } from "express"
 
 
 class MessageBroker {
     readonly topics: { [x: string]: Topic } = {}
 
-    publishers: Publisher[] = []
-    subcribers: Subscriber[] = []
-
-    constructor(app: Application) {
-        this.loadPublishers();
-        this.loadSubscribers();
-        this.install(app)
+    constructor() {
+        this.loadTopics()
     }
 
-    validation() {
-        
+    validation(): TMiddleware {
+        return (req, res, next) => {
+
+        }
     }
 
     addTopic(topic: Topic) {
@@ -32,12 +27,14 @@ class MessageBroker {
         delete this.topics[topic.constructor.name]
     }
 
-    private loadPublishers() {
-
-    }
-
-    private loadSubscribers() {
-
+    private loadTopics(): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            try {
+                
+            } catch (error) {
+                
+            }
+        })
     }
 
     private publisherChannel(): [string, TMiddleware] {
@@ -58,7 +55,7 @@ class MessageBroker {
         ]
     }
 
-    private install(app: Application) {
+    install(app: Application) {
         app.get(...this.publisherChannel())
         app.post(...this.subscriberChannel())
     }
