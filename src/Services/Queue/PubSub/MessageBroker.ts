@@ -2,7 +2,7 @@ import { TMiddleware } from "../../../types"
 import Topic from "./Topic"
 import { Application } from "express"
 
-class MessageBroker {
+abstract class MessageBroker {
     readonly topics: { [x: string]: Topic } = {}
 
     constructor() {
@@ -24,59 +24,23 @@ class MessageBroker {
      * Mothod responsable to load the topics from database
      * @returns {Promise<void>}
      */
-    private loadTopics(): Promise<void> {
-        return new Promise<void>((resolve, reject) => {
-            try {
-                
-            } catch (error) {
-                
-            }
-        })
-    }
+    protected abstract loadTopics(): Promise<void> 
 
-
-    
-    private validPublish(topic: string): boolean {
-        return true
-    }
+    protected abstract validPublish(topic: string): boolean
 
     /**
      * This is the endpoint to receive messages from the publisher
      * @returns {[string, TMiddleware]}
      */
-    private publishChannel(): [string, TMiddleware] {
-        return [
-            '/publish/:topic', 
-            // Put here your api authentication middleware for improve the security
-            (req, res, next) => {
-                let {topic} = req.params
+    protected abstract publishChannel(): [string, TMiddleware]
 
-                if(!this.validPublish(topic)) {
-                    next()
-                }
-            }
-        ]
-    }
-
-    private validSubscribe(): TMiddleware {
-        return (req, res, next) => {
-
-        }
-    }
+    protected abstract validSubscribe(): TMiddleware
 
     /**
      * This is the endpoint for subscribing to a specific topic
      * @returns {[string, TMiddleware]}
      */
-    private subscriberChannel(): [string, TMiddleware] {
-        return [
-            '/subscribe/:topic', 
-            // Put here your api authentication middleware for improve the security
-            (req, res, next) => {
-
-            }
-        ]
-    }
+    protected abstract subscriberChannel(): [string, TMiddleware]
 
     /**
      * Method to install the messageBroker in the Express app

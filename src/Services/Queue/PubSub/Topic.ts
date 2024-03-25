@@ -6,7 +6,7 @@ import Subscriber from "./Subscriber";
 class Topic extends Queue {
     readonly name: string;
     protected queue: Message[] = []
-    protected events: { [x: string]: any } = {}
+    protected events: string[];
 
     key: Buffer
 
@@ -17,13 +17,13 @@ class Topic extends Queue {
         name: string,
         options: TQueueOptions = {
             delay: 100,
-            delivery: "at-leats-once",
+            delivery: "at-least-once",
             expirationTime: 1000 * 60 * 60 * 24,
             maxWaitTime: 5000,
             processType: 'FIFO',
             retryTimes: 3
         },
-        events: { [x: string]: any },
+        events: string[],
         key: Buffer
     ) {
         super(options)

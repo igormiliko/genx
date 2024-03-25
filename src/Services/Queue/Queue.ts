@@ -3,7 +3,7 @@ import Message from "./PubSub/Message"
 
 export type TQueueOptions = {
     processType: 'FIFO' | 'LIFO' // Order to process the queue
-    delivery: 'at-leats-once' | 'exactly-once'
+    delivery: 'at-least-once' | 'exactly-once'
     expirationTime: number // Time in 'ms' to a job expire
     maxWaitTime: number // Max time in 'ms' to exec a job
     delay: number // Delay time in 'ms' between queue process
