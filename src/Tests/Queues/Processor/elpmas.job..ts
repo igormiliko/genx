@@ -1,6 +1,6 @@
 import Job from "../../../Services/Queue/Job";
 
-class Subscriber extends Job {
+class ElpmasJob extends Job {
     handle(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             resolve()
@@ -8,4 +8,4 @@ class Subscriber extends Job {
     }
 }
 
-export default Subscriber
+export default ElpmasJob

@@ -1,13 +1,13 @@
-import publisherJob from "../../App/Components/Jobs/sample.job"
-import subscriberJob from "../../App/Components/Jobs/elpmas.job."
-import sampleQueue from "../../App/Components/Queue/sample.queue"
-import QueueProcessor from "../../Services/Queue/Processor"
-import Queue from "../../Services/Queue/Queue"
+import sampleQueue from "../../../App/Components/Queue/sample.queue"
+import QueueProcessor from "../../../Services/Queue/Processor"
+import Queue from "../../../Services/Queue/Queue"
+import ElpmasJob from "./elpmas.job."
+import SampleJob from "./sample.job"
 
 describe('Testing the processor class', () => {
     test('main', async () => {
-        let pub = new publisherJob()
-        let sub = new subscriberJob()
+        let pub = new SampleJob()
+        let sub = new ElpmasJob()
 
         const queue = new sampleQueue({
             delay: 2000,
