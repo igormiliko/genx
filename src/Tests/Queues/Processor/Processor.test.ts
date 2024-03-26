@@ -11,7 +11,7 @@ describe('Testing the processor class', () => {
 
         const queue = new sampleQueue({
             delay: 2000,
-            delivery: "at-leats-once",
+            delivery: "at-least-once",
             expirationTime: 10000,
             maxWaitTime: 10000,
             processType: "FIFO",

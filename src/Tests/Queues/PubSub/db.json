@@ -1,18 +1,89 @@
 {
     "topic": [
-        {"name": "e-commerce", "events": ["buy","leave-kart", "add-favorite"], "key": "bb9c7b96f754dcb9388998fc" },
-        {"name": "paymnt-gateway", "events": ["checkout", "put-infos", "credit-card-data", "validate-cc", "buy"], "key": "aa8d5b96f754hdb662511998fc" }
+        {
+            "name": "e-commerce",
+            "events": [
+                "buy",
+                "leave-kart",
+                "add-favorite"
+            ],
+            "key": "bb9c7b96f754dcb9388998fc"
+        },
+        {
+            "name": "paymnt-gateway",
+            "events": [
+                "checkout",
+                "put-infos",
+                "credit-card-data",
+                "validate-cc",
+                "buy"
+            ],
+            "key": "aa8d5b96f754hdb662511998fc"
+        }
     ],
     "subscriber": [
-        {"url": "http://localhost/3330", "topics": ["e-commerce"], "key": "io7j1l63t154pps854252659ea"},
-        {"url": "http://localhost/3331", "topics": ["e-commerce", "payment-gateway"], "key": "io7j1l63t154pps854252659ea"},
-        {"url": "http://localhost/3332", "topics": [], "key": "ee1191c843b03645ad6e5506358dd1c9"},
-        {"url": "http://localhost/3334", "topics": ["payment-gateway"], "key": "a92b6b5853d8c26ca55f289a"},
-        {"url": "http://localhost/3335", "topics": ["e-commerce"], "key": "6caf2e2e53a38f73656eadfafefa262b"}
+        {
+            "url": "http://localhost/3330",
+            "topics": [
+                "e-commerce"
+            ],
+            "key": "io7j1l63t154pps854252659ea"
+        },
+        {
+            "url": "http://localhost/3331",
+            "topics": [
+                "e-commerce",
+                "payment-gateway"
+            ],
+            "key": "io7j1l63t154pps854252659ea"
+        },
+        {
+            "url": "http://localhost/3332",
+            "topics": [],
+            "key": "ee1191c843b03645ad6e5506358dd1c9"
+        },
+        {
+            "url": "http://localhost/3334",
+            "topics": [
+                "payment-gateway"
+            ],
+            "key": "a92b6b5853d8c26ca55f289a"
+        },
+        {
+            "url": "http://localhost/3335",
+            "topics": [
+                "e-commerce"
+            ],
+            "key": "6caf2e2e53a38f73656eadfafefa262b"
+        }
     ],
     "publishers": [
-        {"key": "ee1191c843b03645ad6e5506358dd1c9", "topics": ["e-commerce"]},
-        {"key": "ee1191c843b03645ad6e5506358dd1c9", "topics": ["payment-gateway"]},
-        {"key": "ee1191c843b03645ad6e5506358dd1c9", "topics": ["payment-gateway", "e-commerce"]}
+        {
+            "pub-key": "6caf2e2afefa262b",
+            "topics": [
+                {
+                    "e-commerce": "bb9c7b96f754dcb9388998fc"
+                }
+            ]
+        },
+        {
+            "pub-key": "6caf2e2afefa2o22dde23462b",
+            "topics": [
+                {
+                    "payment-gateway": "aa8d5b96f754hdb662511998fc"
+                }
+            ]
+        },
+        {
+            "pub-key": "6caf2e2cce343afefa262b",
+            "topics": [
+                {
+                    "e-commerce": "bb9c7b96f754dcb9388998fc"
+                },
+                {
+                    "payment-gateway": "aa8d5b96f754hdb662511998fc"
+                }
+            ]
+        }
     ]
 }

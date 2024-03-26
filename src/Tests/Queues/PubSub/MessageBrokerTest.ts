@@ -2,6 +2,7 @@ import MessageBroker from "../../../Services/Queue/PubSub/MessageBroker"
 import Topic from "../../../Services/Queue/PubSub/Topic"
 import { TMiddleware } from "../../../types"
 import { Application } from "express"
+import TopicTest from "./TopicTest"
 
 class MessageBrokerTest extends MessageBroker {
     readonly topics: { [x: string]: Topic } = {}
@@ -18,23 +19,29 @@ class MessageBrokerTest extends MessageBroker {
     }
 
     /**
-     * Mothod responsable to load the topics from database
+     * Mothod responsable to auto-load the topics from database
      * @returns {Promise<void>}
      */
     protected loadTopics(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             try {
-                let topics = require('./db.json')
-                console.log(topics)
+                let db = require('./db.json')
+                for(let topic of db.topic) {
+                    if(topic.name){
+                        this.addTopic(new TopicTest(topic.name,topic.events, topic.key ))
+                    }
+                }
+
+                return resolve()
             } catch (error) {
-                console.log(error)
+                return reject(error)
             }
         })
     }
 
 
     
-    protected validPublish(topic: string): boolean {
+    protected validPublish(topic: string, key: Buffer): boolean {
         return true
     }
 
@@ -50,7 +57,7 @@ class MessageBrokerTest extends MessageBroker {
                 let {topic} = req.params
                 let key = req.headers.authorization
 
-                if(!this.validPublish(topic)) {
+                if(!this.validPublish(topic, Buffer.from(String(key)))) {
                     next()
                 }
             }
@@ -81,9 +88,12 @@ class MessageBrokerTest extends MessageBroker {
      * Method to install the messageBroker in the Express app
      * @param app 
      */
-    install(app: Application) {
-        app.get(...this.publishChannel())
-        app.post(...this.subscriberChannel())
+    async install(app?: Application) {
+        await this.loadTopics()
+        if (app){
+            app.post(...this.publishChannel())
+            app.post(...this.subscriberChannel())
+        }
     }
 }
 

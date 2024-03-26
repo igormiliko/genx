@@ -5,9 +5,6 @@ import { Application } from "express"
 abstract class MessageBroker {
     readonly topics: { [x: string]: Topic } = {}
 
-    constructor() {
-        this.loadTopics()
-    }
 
     addTopic(topic: Topic) {
         if (this.topics[topic.constructor.name]) {
@@ -26,7 +23,7 @@ abstract class MessageBroker {
      */
     protected abstract loadTopics(): Promise<void> 
 
-    protected abstract validPublish(topic: string): boolean
+    protected abstract validPublish(...args: any): boolean
 
     /**
      * This is the endpoint to receive messages from the publisher

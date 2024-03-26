@@ -1,6 +1,6 @@
 import Job from "../../../Services/Queue/Job";
 
-class Publisher extends Job {
+class Sample extends Job {
     handle(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             if(this.times > 0) {
@@ -12,4 +12,4 @@ class Publisher extends Job {
     }
 }
 
-export default Publisher
+export default Sample

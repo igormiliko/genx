@@ -3,7 +3,7 @@ import Message from "./Message";
 import Publisher from "./Publisher";
 import Subscriber from "./Subscriber";
 
-class Topic extends Queue {
+abstract class Topic extends Queue {
     readonly name: string;
     protected queue: Message[] = []
     protected events: string[];
@@ -15,6 +15,8 @@ class Topic extends Queue {
 
     constructor(
         name: string,
+        events: string[],
+        key: Buffer,
         options: TQueueOptions = {
             delay: 100,
             delivery: "at-least-once",
@@ -22,9 +24,7 @@ class Topic extends Queue {
             maxWaitTime: 5000,
             processType: 'FIFO',
             retryTimes: 3
-        },
-        events: string[],
-        key: Buffer
+        }
     ) {
         super(options)
         this.name = name
@@ -34,25 +34,9 @@ class Topic extends Queue {
         this.loadSubscribers()
     }
 
-    private loadPublishers(): Promise<void> {
-        return new Promise<void>((resolve, reject) => {
-            try {
-                
-            } catch (error) {
-                
-            }
-        })
-    }
+    protected abstract loadPublishers(): Promise<void>
 
-    private loadSubscribers(): Promise<void> {
-        return new Promise<void>((resolve, reject) => {
-            try {
-                
-            } catch (error) {
-                
-            }
-        })
-    }
+    protected abstract loadSubscribers(): Promise<void>
 
     customEnqueue(object: Message, refeeding?: boolean) {
         if (this.isFull()) {
