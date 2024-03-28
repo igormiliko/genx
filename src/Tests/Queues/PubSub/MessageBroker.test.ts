@@ -24,9 +24,9 @@ describe.only('MessageBroker pub/sub engine tests', () => {
         return true
     })
 
-    // test.only('Load subscribers', () => {
+    test.only('Load subscribers', () => {
         
-    // })
+    })
 
     // test.only('Load publishers', () => {
         

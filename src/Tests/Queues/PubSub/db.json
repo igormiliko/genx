@@ -23,38 +23,39 @@
     ],
     "subscriber": [
         {
+            "sub-key": "ppo12aa433h",
             "url": "http://localhost/3330",
             "topics": [
-                "e-commerce"
-            ],
-            "key": "io7j1l63t154pps854252659ea"
+                {"e-commerce": "bb9c7b96f754dcb9388998fc"}
+            ]
         },
         {
+            "sub-key": "oll43bg4678r",
             "url": "http://localhost/3331",
             "topics": [
-                "e-commerce",
-                "payment-gateway"
-            ],
-            "key": "io7j1l63t154pps854252659ea"
+                {"e-commerce": "bb9c7b96f754dcb9388998fc"},
+                {"payment-gateway": "aa8d5b96f754hdb662511998fc"}
+            ]
         },
         {
+            "sub-key": "o98yyt223ffe",
             "url": "http://localhost/3332",
-            "topics": [],
-            "key": "ee1191c843b03645ad6e5506358dd1c9"
+            "topics": [] 
         },
         {
+            "sub-key": "gyt6645uey6y6",
             "url": "http://localhost/3334",
             "topics": [
-                "payment-gateway"
-            ],
-            "key": "a92b6b5853d8c26ca55f289a"
+                {"payment-gateway": "aa8d5b96f754hdb662511998fc"}
+
+            ]
         },
         {
+            "sub-key": "aksjfdhasf0231sad",
             "url": "http://localhost/3335",
             "topics": [
-                "e-commerce"
-            ],
-            "key": "6caf2e2e53a38f73656eadfafefa262b"
+                {"e-commerce": "bb9c7b96f754dcb9388998fc"}
+            ]
         }
     ],
     "publishers": [

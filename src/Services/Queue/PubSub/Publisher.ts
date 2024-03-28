@@ -1,20 +1,20 @@
 import Message, { IMessage } from "./Message"
 
-abstract class Publisher {
-    message: Message
-
-    constructor({topic, event, data}: IMessage) {
-        this.message = this.createMessage({topic, event, data})
+class Publisher {
+    key: Buffer;
+    constructor(key: Buffer) {
+       this.key = key
     }
 
-    abstract isValidMessage(): boolean
+    isValidMessage(): boolean {
+        return true
+    }
 
     createMessage({topic, event, data}: IMessage) {
         if(!this.isValidMessage()) {
             throw new Error('Message not valid!')
         }
-            return new Message({topic, event, data})
-
+        return new Message({topic, event, data})
     }
 }
 

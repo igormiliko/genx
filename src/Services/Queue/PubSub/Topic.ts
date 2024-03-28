@@ -11,7 +11,7 @@ abstract class Topic extends Queue {
     key: Buffer
 
     publishers: Publisher[] = []
-    subcribers: Subscriber[] = []
+    subscribers: Subscriber[] = []
 
     constructor(
         name: string,

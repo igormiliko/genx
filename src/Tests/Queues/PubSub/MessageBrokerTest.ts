@@ -28,7 +28,7 @@ class MessageBrokerTest extends MessageBroker {
                 let db = require('./db.json')
                 for(let topic of db.topic) {
                     if(topic.name){
-                        this.addTopic(new TopicTest(topic.name,topic.events, topic.key ))
+                        this.addTopic(new TopicTest(topic.name, topic.events, topic.key ))
                     }
                 }
 
